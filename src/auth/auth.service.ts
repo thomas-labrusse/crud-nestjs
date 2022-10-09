@@ -32,9 +32,8 @@ export class AuthService {
     const hash = (await scrypt(password, salt, 32)) as Buffer;
     //  Join the hashed result and the salt together
     const result = salt + '.' + hash.toString('hex');
-    // Create a new user and save it
-    const randomId = Math.floor(Math.random() * 999);
-    const user = await this.usersService.create(randomId, email, result);
+
+    const user = await this.usersService.create(email, result);
     return user;
   }
 
@@ -57,7 +56,6 @@ export class AuthService {
 
   async login(user: any) {
     const payload = { email: user.email, sub: user.id };
-    console.log('Login with payload: ', payload);
     return {
       access_token: this.jwtService.sign(payload),
     };
