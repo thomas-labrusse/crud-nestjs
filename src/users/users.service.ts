@@ -1,37 +1,44 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
-  private readonly users = [
-    {
-      id: 1,
-      email: 'mockdata@mockdata.com',
-      password: 'mockdata',
-    },
-  ];
+  constructor(@InjectRepository(User) private repo: Repository<User>) {}
+
   create(id: number, email: string, password: string) {
-    const newUser = {
-      id: id,
-      email: email,
-      password: password,
-    };
-    this.users.push(newUser);
+    const user = this.repo.create({ email, password });
+    this.repo.save(user);
   }
+
   findOne(id: number) {
-    return this.users.filter((user) => user.id === id);
+    return this.repo.findOneBy({ id });
   }
-  // TODO: change method when querying a DB to retrieve a unique user
+
   find(email: string) {
-    return this.users.filter((user) => user.email === email);
+    return this.repo.find({ where: { email } });
   }
 
   findAll() {
-    return this.users;
+    return this.repo.find();
   }
-  remove(id: number) {
-    const index = this.users.findIndex((user) => user.id === id);
-    this.users.splice(index, 1);
-    return this.users;
+
+  async remove(id: number) {
+    const user = await this.findOne(id);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    this.repo.remove(user);
   }
-  // TODO: update user method
+
+  async update(id: number, attrs: Partial<User>) {
+    const user = await this.findOne(id);
+
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    Object.assign(user, attrs);
+    return this.repo.save(user);
+  }
 }

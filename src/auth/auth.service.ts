@@ -19,7 +19,7 @@ export class AuthService {
 
   async signup(email: string, password: string) {
     // Verify that email is not yet in use
-    const users = this.usersService.find(email);
+    const users = await this.usersService.find(email);
     // If in use, throw Exception
     if (users.length) {
       throw new BadRequestException('email already in use');
@@ -39,10 +39,12 @@ export class AuthService {
   }
 
   async validateUser(email: string, password: string) {
-    const user = this.usersService.find(email);
+    const user = await this.usersService.find(email);
     if (!user) {
       throw new NotFoundException('user not found');
     }
+
+    console.log('USER:', user);
     //  TODO: change user[0] when only one user is retrieved
     const [salt, storedHash] = user[0].password.split('.');
     const hash = (await scrypt(password, salt, 32)) as Buffer;
