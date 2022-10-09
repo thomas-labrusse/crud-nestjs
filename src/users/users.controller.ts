@@ -1,11 +1,20 @@
-import { Controller, Get, Param, Delete, Put, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Delete,
+  Put,
+  Body,
+  UseInterceptors,
+  ClassSerializerInterceptor,
+  NotFoundException,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 
+@UseInterceptors(ClassSerializerInterceptor)
 @Controller('users')
 export class UsersController {
-  constructor(
-    private usersService: UsersService, // private authService: AuthService,
-  ) {}
+  constructor(private usersService: UsersService) {}
 
   // Get all users
   @Get()
@@ -16,9 +25,13 @@ export class UsersController {
 
   // Get a single user based on its id
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  async findOne(@Param('id') id: string) {
     console.log(`this route will get a single user with the id: #${id}`);
-    return this.usersService.findOne(parseInt(id));
+    const user = await this.usersService.findOne(parseInt(id));
+    if (!user) {
+      throw new NotFoundException(`User with id # ${id} not found`);
+    }
+    return user;
   }
 
   @Put(':id')
