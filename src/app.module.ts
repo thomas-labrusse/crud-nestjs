@@ -7,24 +7,24 @@ import { OffapiModule } from './offapi/offapi.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from './users/user.entity';
+import config from '../config/configuration';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [config],
+    }),
     UsersModule,
     AuthModule,
     OffapiModule,
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: `.env.${process.env.NODE_ENV}`,
-    }),
     // TypeOrmModule.forRoot(): sharing db connection with all modules
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
         return {
           type: 'sqlite',
-          // switching db between dev and test
-          database: config.get<string>('DB_NAME'),
+          database: config.get<string>('db'),
           entities: [User],
           // synchronize option: only for development purposes. NEVER RUN IN PRODUCTION, CAN DELETE COLUMNS AND DATA, WRITE MIGRATIONS INSTEAD
           synchronize: true,
