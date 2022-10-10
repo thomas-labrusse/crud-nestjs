@@ -42,9 +42,6 @@ export class AuthService {
     if (!user) {
       throw new NotFoundException('user not found');
     }
-
-    console.log('USER:', user);
-    //  TODO: change user[0] when only one user is retrieved
     const [salt, storedHash] = user[0].password.split('.');
     const hash = (await scrypt(password, salt, 32)) as Buffer;
     if (storedHash !== hash.toString('hex')) {

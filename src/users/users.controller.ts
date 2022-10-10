@@ -19,14 +19,12 @@ export class UsersController {
   // Get all users
   @Get()
   findAll() {
-    console.log('this route will get all users');
     return this.usersService.findAll();
   }
 
   // Get a single user based on its id
   @Get(':id')
   async findOne(@Param('id') id: string) {
-    console.log(`this route will get a single user with the id: #${id}`);
     const user = await this.usersService.findOne(parseInt(id));
     if (!user) {
       throw new NotFoundException(`User with id # ${id} not found`);

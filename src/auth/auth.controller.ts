@@ -20,7 +20,6 @@ export class AuthController {
   async create(@Body() body: CreateUserDto) {
     const { email, password } = body;
     const user = await this.authService.signup(email, password);
-    console.log('USER:', user);
     return user;
   }
 
@@ -29,7 +28,6 @@ export class AuthController {
   @Post('login')
   async login(@Request() req) {
     // Here, passport attached the user object to the request
-    console.log('Req.user:', req.user);
     return this.authService.login(req.user);
   }
 }
