@@ -1,18 +1,29 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OffapiService } from './offapi.service';
+import { HttpService } from '@nestjs/axios';
 
 describe('OffapiService', () => {
-  let service: OffapiService;
+  let offapiService: OffapiService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [OffapiService],
+      providers: [
+        OffapiService,
+        {
+          provide: HttpService,
+          useValue: {
+            fn: () => {
+              return;
+            },
+          },
+        },
+      ],
     }).compile();
 
-    service = module.get<OffapiService>(OffapiService);
+    offapiService = module.get<OffapiService>(OffapiService);
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(offapiService).toBeDefined();
   });
 });
