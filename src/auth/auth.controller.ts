@@ -22,12 +22,11 @@ export class AuthController {
     const user = await this.authService.signup(email, password);
     return user;
   }
-
   // Userguards triggers our localAuthGuard letting know Passport that we use the local strategy, then runs the strategy and eventually runs the validate() function. Passport saves the user in request.user
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req) {
-    // Here, passport attached the user object to the request
+    // Passport attached the user object to the request
     return this.authService.login(req.user);
   }
 }

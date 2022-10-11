@@ -20,7 +20,6 @@ export class User {
   @Exclude()
   password: string;
 
-  //   TODO: only for dev - remove for production
   @AfterInsert()
   logInsert() {
     console.log('Inserted User with id :', this.id);
