@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { User } from './users/user.entity';
 import config from '../config/configuration';
+import dbConfig from 'ormconfig';
 
 @Module({
   imports: [
@@ -19,18 +20,20 @@ import config from '../config/configuration';
     AuthModule,
     OffapiModule,
     // TypeOrmModule.forRoot(): sharing db connection with all modules
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        return {
-          type: 'sqlite',
-          database: config.get<string>('db'),
-          entities: [User],
-          // synchronize option: only for development purposes. NEVER RUN IN PRODUCTION, CAN DELETE COLUMNS AND DATA, WRITE MIGRATIONS INSTEAD
-          synchronize: true,
-        };
-      },
-    }),
+    TypeOrmModule.forRoot(dbConfig),
+
+    // TypeOrmModule.forRootAsync({
+    //   inject: [ConfigService],
+    //   useFactory: (config: ConfigService) => {
+    //     return {
+    //       type: 'sqlite',
+    //       database: config.get<string>('db'),
+    //       entities: [User],
+    //       // synchronize option: only for development purposes. NEVER RUN IN PRODUCTION, CAN DELETE COLUMNS AND DATA, WRITE MIGRATIONS INSTEAD
+    //       synchronize: true,
+    //     };
+    //   },
+    // }),
   ],
   controllers: [AppController],
   providers: [AppService],
