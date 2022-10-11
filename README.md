@@ -9,6 +9,7 @@ This simple API allows to retrieve data from the Open Food Fact database using a
 - Users can signup and login to their accounts.
 - A User can be manually added, deleted or modified.
 - Authenticated users can query the Open Food Fact database by provide a barcode.
+- Data retrieved from the Open Food Fact database are cached for 5 minutes.
 
 ### Installation Guide
 
@@ -60,21 +61,53 @@ $ npm run test:e2e
 | PUT        | /users/:id        | To modify a user                    |
 | DELETE     | /users/:id        | To delete a single user             |
 
-### Authentication
+## Authentication
 
-A user signup and create a new account by using the following endpoint
+### Signup
+
+A user signup and create a new account by using the following endpoint. Return the created user.
 
 ```bash
 POST /auth/signup
 ```
 
-#### Parameters
+#### Parameters (request body)
 
 email (REQUIRED) : string (valid email)
-
 password (REQUIRED) : string
 
-#### Parameters
+### Login
+
+A user logs in by using the following endpoint. Returns a JWT.
+
+```bash
+POST /auth/signin
+```
+
+#### Parameters (request body)
+
+email (REQUIRED) : string (valid email)
+password (REQUIRED) : string
+
+#### Response
+
+```bash
+{
+    "access_token": "randomJWT"
+}
+```
+
+## Query Open Food Facts
+
+### Query with a barcode
+
+A user query the Open Food Facts database by providing a barcode at the end of the following endpoint :
+
+```bash
+GET /product/:barcode
+```
+
+This route is protected and only accessible by authenticated users, providing a valid JWT in the Authorization header.
 
 ## Production
 
