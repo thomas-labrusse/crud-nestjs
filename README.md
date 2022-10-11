@@ -2,7 +2,7 @@
 
 ### Introduction
 
-This simple API allows to retrieve data from the Open Food Fact database using a barcode.
+This simple API created with NestJS allows to retrieve data from the Open Food Fact database using a barcode.
 
 ### Features
 
@@ -120,7 +120,7 @@ JWT_SECRET=<yoursecretstring>
 
 - The setup has been optimized for a deployment on Heroku.
 - The repo includes a Procfile allowing easy deployment on Heroku.
-- Specific configs have been included in the "ormconfig.ts" file. If you wish to deploy with another provider, modify those edit those configs first.
+- Specific configurations have been included in the "ormconfig.ts" file. If you wish to deploy with another provider, edit those configurations first.
 - A deployed version of this API can be found [here](https://hidden-thicket-27219.herokuapp.com/).
 
 ## Credits
@@ -132,7 +132,3 @@ JWT_SECRET=<yoursecretstring>
 ### License
 
 This project is available for use under the MIT License.
-
-```
-
-```
