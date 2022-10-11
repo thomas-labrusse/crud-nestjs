@@ -29,7 +29,11 @@ AppModule = __decorate([
             users_module_1.UsersModule,
             auth_module_1.AuthModule,
             offapi_module_1.OffapiModule,
-            typeorm_1.TypeOrmModule.forRoot(ormconfig_1.default),
+            typeorm_1.TypeOrmModule.forRootAsync({
+                useFactory: () => {
+                    return ormconfig_1.default;
+                },
+            }),
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

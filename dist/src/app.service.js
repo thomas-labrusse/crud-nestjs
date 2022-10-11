@@ -9,6 +9,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppService = void 0;
 const common_1 = require("@nestjs/common");
 let AppService = class AppService {
+    hello() {
+        return 'Welcome to the Open Food Fact CRUD, you will find the documentation here : https://github.com/thomas-labrusse/crud-nestjs#readme';
+    }
 };
 AppService = __decorate([
     (0, common_1.Injectable)()
