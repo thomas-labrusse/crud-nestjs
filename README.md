@@ -47,7 +47,7 @@ $ npm run test:e2e
 
 ## Usage
 
-- Connect to the API using Postman on port 3000.
+Connect to the API using Postman on port 3000.
 
 ### API Endpoints
 
@@ -73,8 +73,8 @@ POST /auth/signup
 
 #### Parameters (request body)
 
-email (REQUIRED) : string (valid email)
-password (REQUIRED) : string
+- email (REQUIRED) : string (valid email)
+- password (REQUIRED) : string
 
 ### Login
 
@@ -86,8 +86,8 @@ POST /auth/signin
 
 #### Parameters (request body)
 
-email (REQUIRED) : string (valid email)
-password (REQUIRED) : string
+- email (REQUIRED) : string (valid email)
+- password (REQUIRED) : string
 
 #### Response
 
@@ -110,6 +110,20 @@ GET /product/:barcode
 This route is protected and only accessible by authenticated users, providing a valid JWT in the Authorization header.
 
 ## Production
+
+- On deployment for production, provide the following environment variables :
+
+```bash
+NODE_ENV=production
+JWT_SECRET=<yoursecretstring>
+```
+
+- The setup has been optimized for a deployment on Heroku.
+- The repo includes a Procfile allowing easy deployment on Heroku.
+- Specific configs have been included in the "ormconfig.ts" file. If you wish to deploy with another provider, modify those edit those configs first.
+- A deployed version of this API can be found [here](https://hidden-thicket-27219.herokuapp.com/).
+
+## Credits
 
 ### Authors
 
